@@ -26,7 +26,7 @@ class Whatsapp extends BaseModel
      *
      */
     protected $fillable = [
-        "id", "account_id", 
+        "id", "account_id",  "to_phone",
         "body_content", "input_params", "media_url", "status", "message_id",
         "from_phone", "notes",
         "created_at", "updated_at", 
