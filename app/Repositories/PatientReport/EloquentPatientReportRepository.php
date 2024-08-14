@@ -409,13 +409,12 @@ class EloquentPatientReportRepository extends DbRepository
                 "templateId"        => $accountInfo->accountConfig->wa_template_id,
                 "templateLanguage"  => "en",
                 "templateArgs"      => [
-                    //url('reports/pdf/'.$patientReport->attachment),
-                    'https://www.antennahouse.com/hubfs/xsl-fo-sample/pdf/basic-link-1.pdf',
+                    url('reports/pdf/'.$patientReport->attachment),
                     $patientReport->patientInfo->name,
                     'P T MIRANI',
                     'P T MIRANI',
                 ],
-                "sender_phone" => "91".  $accountInfo->accountConfig->wa_phone_number
+                "sender_phone" => "91".  $mobile
             ],
             [
                 'body_content'  => 'test',
