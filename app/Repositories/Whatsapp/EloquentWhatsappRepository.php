@@ -360,11 +360,9 @@ class EloquentWhatsappRepository extends DbRepository
     {
         if(isset($url) &&  isset($toMobile) && is_array($params) && count($params))
         {
-            if(env('WA_SANDBOX')) 
+            if(env('WA_SANDBOX') && env('WA_SANDBOX') == false) 
             {
-                return true;
-            }
-            $ch = curl_init($url);
+                $ch = curl_init($url);
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
@@ -373,18 +371,19 @@ class EloquentWhatsappRepository extends DbRepository
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 $resultStr = curl_exec($ch);
                 $response =  json_decode($resultStr, true);
-               
-                return $this->model->create([
-                    'account_id'    => $account->id,
-                    'to_phone'      => $toMobile,
-                    'body_content'  => $bodyOptions['body_content'] ?? null,
-                    'input_params'  => json_encode($params),
-                    'media_url'     => $bodyOptions['media_url'],
-                    'status'        => $response['status'] ?? 202,
-                    'message_id'     => $response['messageId'] ?? null,
-                    'from_phone'    => $account->accountConfig->wa_phone_number,
-                    'notes'         => 'send wa at : ' .date('d-m-Y h:i a'),
-                ]);
+            }
+  
+            return $this->model->create([
+                'account_id'    => $account->id,
+                'to_phone'      => $toMobile,
+                'body_content'  => $bodyOptions['body_content'] ?? null,
+                'input_params'  => json_encode($params),
+                'media_url'     => $bodyOptions['media_url'],
+                'status'        => $response['status'] ?? 202,
+                'message_id'     => $response['messageId'] ?? null,
+                'from_phone'    => $account->accountConfig->wa_phone_number,
+                'notes'         => 'send wa at : ' .date('d-m-Y h:i a'),
+            ]);
         }
 
         return false;

@@ -63,6 +63,7 @@
                                             </td>
                                             <td>
                                                 <?php
+                                                $reportHashId = hasher()->encode($todayReport->id);
                                                 $html = '';
                                                 if($todayReport->reportDetails)
                                                 {
@@ -86,6 +87,8 @@
 
                                                 @if($todayReport->attachment)
                                                     <a target="_blank" href="<?= url('reports/pdf/'.$todayReport->attachment);?>" class="btn btn-xs btn-primary"><i class="fa fa-download" data-toggle="tooltip" data-placement="top" title="Download"></i></a>
+
+                                                    <a  onclick="sendWaReport('<?= $reportHashId;?>')" href="javascript:void(0);" class="btn btn-xs btn-primary"><i class="fa fa-paper-plane" data-toggle="tooltip" data-placement="top" title="Send"></i></a>
                                                 @endif
                                             </td>
                                         </tr>
@@ -463,6 +466,61 @@
                 });
             }
         });
+    }
+
+    function sendWaReport(reportId)
+    {
+        swal({
+                title: "Send WhatsApp?",
+                text: 'By clicking you are sending reports on patient whatsapp phone number.',
+                type: "warning",
+                html: true,
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes, Send Now.',
+                cancelButtonText: "No, cancel it!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+             },
+            function(isConfirm)
+            {
+                if(isConfirm && isConfirm == true)
+                {
+                    jQuery.ajax(
+                    {
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        beforeSend: function() 
+                        {
+                            swal.close();
+                            swal('Loading...', '', 'warning');
+                        },
+                        url : "{{ route('admin.patientreport.sendWaReport') }}",
+                        data : {
+                            reportId
+                        },
+                        type : 'POST',
+                        dataType : 'json',
+                        success : function(data)
+                        {
+                            swal.close();
+                            if(data.status == true)
+                            {
+                                window.location.reload();
+                                return;
+                            }
+
+                            swal('Error!', 'Something went wrong.', 'error');
+                        }
+                    });
+                }
+                else
+                {
+                    swal.close();
+                }
+            })
+
     }
 </script>
     

@@ -42,9 +42,9 @@ class EloquentPatientReportRepository extends DbRepository
         'details'          => 'Details',
 		'total_cost'       => 'Total Cost',
 		'status'           => 'Status',
-		'sent_count'       => 'Message Sent',
         'collected_on'     => 'Collected At',
         'reported_on'      => 'Completed At',
+		'sent_count'       => 'Message Sent',
         "actions"          => "Actions"
     ];
 
@@ -91,12 +91,6 @@ class EloquentPatientReportRepository extends DbRepository
                     'searchable'    => true,
                     'sortable'      => true
                 ],
-		'sent_count' =>   [
-                    'data'          => 'sent_count',
-                    'name'          => 'sent_count',
-                    'searchable'    => true,
-                    'sortable'      => true
-                ],
 		'collected_on' =>   [
                     'data'          => 'collected_on',
                     'name'          => 'collected_on',
@@ -106,6 +100,12 @@ class EloquentPatientReportRepository extends DbRepository
 		'reported_on' =>   [
                     'data'          => 'reported_on',
                     'name'          => 'reported_on',
+                    'searchable'    => true,
+                    'sortable'      => true
+                ],
+        'sent_count' =>   [
+                    'data'          => 'sent_count',
+                    'name'          => 'sent_count',
                     'searchable'    => true,
                     'sortable'      => true
                 ],
@@ -424,6 +424,7 @@ class EloquentPatientReportRepository extends DbRepository
 
         $patientReport->watsapp_time = date('Y-m-d h:i:s');
         $patientReport->sent_count = $patientReport->sent_count ? $patientReport->sent_count + 1 : 1;
+        $patientReport->status = 3;
         $patientReport->save();
 
         return true;

@@ -14,8 +14,12 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $todayReports               = PatientReport::whereDate('received_on', date('Y-m-d'))
-        ->orWhere('reported_on', null)->with(['patientInfo', 'sampleCollectionDetail', 'sampleCollectionDetail.sampleCollectedBy'])->get();
+        $todayReports = PatientReport::whereDate('received_on', date('Y-m-d'))
+        ->where(function ($query) {
+           $query->whereDate('received_on', date('Y-m-d'))
+           ->orWhere('reported_on', null) ;
+        })
+        ->with(['patientInfo', 'sampleCollectionDetail', 'sampleCollectionDetail.sampleCollectedBy'])->get();
         
         $todayPending               = PatientReport::whereNotNull('sample_collection_detail_id')->whereDate('collected_on', date('Y-m-d'))->with(['patientInfo', 'sampleCollectionDetail', 'sampleCollectionDetail.sampleCollectedBy'])
             ->whereNull('received_on')

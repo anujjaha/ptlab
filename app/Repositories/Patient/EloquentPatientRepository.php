@@ -187,7 +187,7 @@ class EloquentPatientRepository extends DbRepository
                 $creatorCollector = $this->createCollector($model, $input);
                 $patientReport->sample_collection_detail_id = $creatorCollector->id;
                 
-                $patientReport->collected_on    = date('Y-m-d h:i:s', strtotime($input['collected_at']));
+                $patientReport->collected_on    = date('Y-m-d H:i:s', strtotime($input['collected_at']));
                 $patientReport->received_on     = null;
 
                 $patientReport->save();
@@ -238,8 +238,8 @@ class EloquentPatientRepository extends DbRepository
             'unique_id'     => generateUniqueId(),
             'status'        => 0,
             'is_watsapp'    => 1,
-            'received_on'   => date('Y-m-d h:i:s'),
-            'collected_on'  => date('Y-m-d h:i:s'),
+            'received_on'   => date('Y-m-d H:i:s'),
+            'collected_on'  => date('Y-m-d H:i:s'),
         ]);
 
         $totalCost = 0;

@@ -80,6 +80,11 @@ function sendWaReport(reportId)
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
+                    beforeSend: function() 
+                    {
+                        swal.close();
+                        swal('Loading...', '', 'warning');
+                    },
                     url : "{{ route('admin.patientreport.sendWaReport') }}",
                     data : {
                         reportId
