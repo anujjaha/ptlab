@@ -1,0 +1,271 @@
+<?php 
+
+namespace App\Http\Controllers\Backend\PatientReport;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Yajra\Datatables\Datatables;
+use App\Repositories\PatientReport\EloquentPatientReportRepository;
+
+/**
+ * Class AdminPatientReportController
+ */
+class AdminPatientReportController extends Controller
+{
+    /**
+     * PatientReport Repository
+     *
+     * @var object
+     */
+    public $repository;
+
+    /**
+     * Create Success Message
+     *
+     * @var string
+     */
+    protected $createSuccessMessage = "PatientReport Created Successfully!";
+
+    /**
+     * Edit Success Message
+     *
+     * @var string
+     */
+    protected $editSuccessMessage = "PatientReport Edited Successfully!";
+
+    /**
+     * Delete Success Message
+     *
+     * @var string
+     */
+    protected $deleteSuccessMessage = "PatientReport Deleted Successfully";
+
+    /**
+     * __construct
+     *
+     */
+    public function __construct()
+    {
+        $this->repository = new EloquentPatientReportRepository;
+    }
+
+    /**
+     * PatientReport Listing
+     *
+     * @return \Illuminate\View\View
+     */
+    public function index()
+    {
+        return view($this->repository->setAdmin(true)->getModuleView('listView'))->with([
+            'repository' => $this->repository
+        ]);
+    }
+
+    /**
+     * PatientReport View
+     *
+     * @return \Illuminate\View\View
+     */
+    public function create(Request $request)
+    {
+        return view($this->repository->setAdmin(true)->getModuleView('createView'))->with([
+            'repository' => $this->repository
+        ]);
+    }
+
+    /**
+     * PatientReport Store
+     *
+     * @return \Illuminate\View\View
+     */
+    public function store(Request $request)
+    {
+        $this->repository->create($request->all());
+
+        return redirect()->route($this->repository->setAdmin(true)->getActionRoute('listRoute'))->withFlashSuccess($this->createSuccessMessage);
+    }
+
+    /**
+     * PatientReport Edit
+     *
+     * @return \Illuminate\View\View
+     */
+    public function edit($id, Request $request)
+    {
+        $item = $this->repository->findOrThrowException($id, ['patientInfo', 'sampleCollectionDetail', 'sampleCollectionDetail.sampleCollectedBy','reportDetails', 'reportDetails.report_type']);
+        //dd($item);
+        return view($this->repository->setAdmin(true)->getModuleView('editView'))->with([
+            'item'          => $item,
+            'repository'    => $this->repository
+        ]);
+    }
+
+    /**
+     * PatientReport Show
+     *
+     * @return \Illuminate\View\View
+     */
+    public function show($id, Request $request)
+    {
+        $item = $this->repository->findOrThrowException($id);
+
+        return view($this->repository->setAdmin(true)->getModuleView('editView'))->with([
+            'item'          => $item,
+            'repository'    => $this->repository
+        ]);
+    }
+
+
+    /**
+     * PatientReport Update
+     *
+     * @return \Illuminate\View\View
+     */
+    public function update($id, Request $request)
+    {
+        $status = $this->repository->update($id, $request->all());
+
+        return redirect()->route($this->repository->setAdmin(true)->getActionRoute('listRoute'))->withFlashSuccess($this->editSuccessMessage);
+    }
+
+    /**
+     * PatientReport Destroy
+     *
+     * @return \Illuminate\View\View
+     */
+    public function destroy($id)
+    {
+        $status = $this->repository->destroy($id);
+
+        return redirect()->route($this->repository->setAdmin(true)->getActionRoute('listRoute'))->withFlashSuccess($this->deleteSuccessMessage);
+    }
+
+    /**
+     * Get Table Data
+     *
+     * @return json|mixed
+     */
+    public function getTableData()
+    {
+        return Datatables::of($this->repository->getForDataTable())
+            ->escapeColumns(['id', 'sort'])
+            ->addColumn('patient_id', function ($item) {
+                return '<p>'. $item->patientInfo->name . '</p><p>'. $item->patientInfo->mobile .'</p>';
+            })
+            ->addColumn('sample_collection_detail_id', function ($item) {
+                $html = '';
+                if($item->reportDetails)
+                {
+                    foreach($item->reportDetails as $details)
+                    {
+                        $html .= '<p>' . $details->report_type->title . ' ('.$details->total_cost.')</p>';
+                    }
+                }
+                return $html;
+            })
+            ->addColumn('status', function ($item) {
+                return getPatientReportStatus($item->status);
+            })
+            ->addColumn('watsapp_time', function ($item) {
+                if($item->watsapp_time)
+                {
+                    return getReadableDateTime($item->watsapp_time);
+                };
+                return '-';
+            })
+            ->addColumn('collected_on', function ($item) {
+                if($item->sampleCollectionDetail)
+                {
+                    return '<p>'.date('d M Y h:i a', strtotime($item->sampleCollectionDetail->collected_at)) .'</p><p>'. 
+                    $item->sampleCollectionDetail->sampleCollectedBy->name . '</p>';
+                }
+
+                return date('d M Y h:i a', strtotime($item->collected_on));
+            })->addColumn('reported_on', function ($item) {
+               return getReadableDateTime($item->reported_on);
+            })
+            ->addColumn('actions', function ($item) {
+                return $item->admin_action_buttons;
+            })
+            ->make(true);
+    }
+
+    /**
+     * PatientReport Edit
+     *
+     * @return \Illuminate\View\View
+     */
+    public function uploadReport($id, Request $request)
+    {
+        $hashId = hasher()->encode($id);
+        $file = $request->file('file');
+        $path = $file->store('uploads', 'public');
+
+
+        $file = $request->file('file');
+        $file_name = 'patient-report-' . $hashId . '-' . rand(11111, 99999);
+        $file_ext = $file->getClientOriginalExtension();
+        $fileInfo = pathinfo($file_name);
+        $filename = $fileInfo['filename'];
+        $newname = $filename .'.'. $file_ext;
+        $destinationPath = public_path('reports/pdf/');
+            
+        if($file->move($destinationPath, $newname))
+        {
+            $this->repository->attachReport($id, $newname);
+            return response()->json([
+                'status' => true
+            ]);    
+        }
+
+        return response()->json([
+            'status' => false
+        ]);
+        
+    }
+
+    /**
+     * PatientReport Edit
+     *
+     * @return \Illuminate\View\View
+     */
+    public function acceptSample(Request $request)
+    {
+        $input =$request->all();
+
+        $status = $this->repository->acceptSample($input['reportId']);
+
+        if($status)
+        {
+            return response()->json([
+                'status' => true
+            ]);   
+        }
+
+        return response()->json([
+            'status' => false
+        ]);
+    }
+
+    /**
+     * PatientReport send WA
+     *
+     * @return \Illuminate\View\View
+     */
+    public function sendWaReport(Request $request)
+    {
+        $input =$request->all();
+        $status = $this->repository->sendWaReport($input['reportId']);
+
+        if($status)
+        {
+            return response()->json([
+                'status' => true
+            ]);   
+        }
+
+        return response()->json([
+            'status' => false
+        ]);
+    }
+}
