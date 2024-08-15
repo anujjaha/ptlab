@@ -360,18 +360,21 @@ class EloquentWhatsappRepository extends DbRepository
     {
         if(isset($url) &&  isset($toMobile) && is_array($params) && count($params))
         {
-            if(env('WA_SANDBOX') && env('WA_SANDBOX') == false) 
+            if(env('WA_SANDBOX') && env('WA_SANDBOX') == true) 
             {
-                $ch = curl_init($url);
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                    'Content-Type:application/json',
-                ));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                $resultStr = curl_exec($ch);
-                $response =  json_decode($resultStr, true);
+                return true;
             }
+            
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type:application/json',
+            ));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $resultStr = curl_exec($ch);
+            $response =  json_decode($resultStr, true);
+            
   
             return $this->model->create([
                 'account_id'    => $account->id,
