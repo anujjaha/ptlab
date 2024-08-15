@@ -22,14 +22,22 @@
 <div class="card">
     <div class="card-header">
         <h3 class="card-title">{{ $repository->moduleTitle }}</h3>
+        @php
+            $hideOptions = 'display: none;';
+        @endphp
         @if(!in_array($item->status, [0,1]))
-        <div class="card-tools">
-            <div class="pull-right mb-10 hidden-sm hidden-xs">
-                <a target="_blank" href="{!! url('reports/pdf/'.$item->attachment)!!}" class="btn btn-primary btn-xs pull-right">Download</a>
-            </div>
-        </div>
+            @php
+                $hideOptions = '';
+            @endphp
         @endif
 
+        <div class="card-tools">
+            <div class="pull-right mb-10 hidden-sm hidden-xs">
+                <a style="<?= $hideOptions;?>" target="_blank" href="{!! url('reports/pdf/'.$item->attachment)!!}" class="default-hide btn btn-primary btn-xs pull-right">Download</a>
+                <a style="<?= $hideOptions;?>" onclick="sendWaReport('<?= hasher()->encode($item->id);?>')" href="javascript:void(0);" class="default-hide btn btn-xs btn-primary"><i class="fa fa-paper-plane" data-toggle="tooltip" data-placement="top" title="Send"></i></a>
+            </div>
+        </div>
+       
     </div>
 
     <div class="card-body">
@@ -111,7 +119,8 @@
 
                         myDropzone.on("queuecomplete", function (file) {
                             swal("Yeah!", "Report uploaded successfully.", "success");
-                            $("#dropZoneContainer").hide();  
+                            $("#dropZoneContainer").hide();
+                            window.location.reload();
                         });
                     }
                     else
@@ -126,6 +135,63 @@
             }
             
         }
+        
+        function sendWaReport(reportId)
+        {
+            swal({
+                    title: "Send WhatsApp?",
+                    text: 'By clicking you are sending reports on patient whatsapp phone number.',
+                    type: "warning",
+                    html: true,
+                    showCancelButton: true,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: 'Yes, Send Now.',
+                    cancelButtonText: "No, cancel it!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                 },
+                function(isConfirm)
+                {
+                    if(isConfirm && isConfirm == true)
+                    {
+                        jQuery.ajax(
+                        {
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            beforeSend: function() 
+                            {
+                                swal.close();
+                                swal('Loading...', '', 'warning');
+                            },
+                            url : "{{ route('admin.patientreport.sendWaReport') }}",
+                            data : {
+                                reportId
+                            },
+                            type : 'POST',
+                            dataType : 'json',
+                            success : function(data)
+                            {
+                                swal.close();
+                                if(data.status == true)
+                                {
+                                    window.location.reload();
+                                    return;
+                                }
+
+                                swal('Error!', 'Something went wrong.', 'error');
+                            }
+                        });
+                    }
+                    else
+                    {
+                        swal.close();
+                    }
+                })
+            }
+
     </script>
+
+
     <input type="hidden" name="isfileUploaded"  id="isfileUploaded"  value="0">
 @endsection

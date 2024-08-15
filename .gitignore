@@ -16,3 +16,4 @@ yarn-error.log
 
 /public/*.*
 /public/theme/
+/public/reports/

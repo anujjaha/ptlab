@@ -371,7 +371,6 @@
                 <td>Status</td>
                 <td>Sample Collection Date</td>
                 <td>Sample Submitted</td>
-                <td>Report Generated</td>
                 <td>Action</td>
             </tr>
             @if($backDatePending)
@@ -402,9 +401,13 @@
 
                         <td>{!! getReadableDateTime($todayReport->collected_on) !!}</td>
 
-                        <td>{!! $todayReport->received_on ? getReadableDateTime($todayReport->received_on) : '-' !!}</td>
+                        <td>
+                            <a onclick="acceptReport({!! $todayReport->id !!})" data-id="{!! $todayReport->id !!}" href="javascript:void(0);" class="btn btn-xs btn-primary">
+                                                        Accept
+                                                    </a>
+                        </td>
 
-                        <td>{!! $todayReport->reported_on ?  getReadableDateTime($todayReport->reported_on) : '-' !!}</td>
+                       
                         <td>
                             <a href="{!! route('admin.patientreport.edit', $todayReport->id) !!}"><i class="fa fa-edit"></i></a>
 

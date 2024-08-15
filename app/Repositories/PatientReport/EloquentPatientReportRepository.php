@@ -376,8 +376,8 @@ class EloquentPatientReportRepository extends DbRepository
             ->update([
                 'attachment'        => $file,
                 'status'            => 2,
-                'attachment_time'   => date('Y-m-d h:i:s'),
-                'reported_on'       => date('Y-m-d h:i:s')
+                'attachment_time'   => date('Y-m-d H:i:s'),
+                'reported_on'       => date('Y-m-d H:i:s')
             ]);
     }
 
@@ -386,7 +386,7 @@ class EloquentPatientReportRepository extends DbRepository
         return $this->model->where('id', $reportId)
             ->update([
                 'status' => 1,
-                'received_on' => date('Y-m-d h:i:s')
+                'received_on' => date('Y-m-d H:i:s')
             ]);
     }
 
