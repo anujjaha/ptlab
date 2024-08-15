@@ -360,10 +360,10 @@ class EloquentWhatsappRepository extends DbRepository
     {
         if(isset($url) &&  isset($toMobile) && is_array($params) && count($params))
         {
-            if(env('WA_SANDBOX') && env('WA_SANDBOX') == true) 
-            {
-                return true;
-            }
+            // if(env('WA_SANDBOX') && env('WA_SANDBOX') == true) 
+            // {
+            //     return true;
+            // }
             
             $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_POST, true);
