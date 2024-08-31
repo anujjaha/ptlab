@@ -37,14 +37,10 @@ class EloquentPatientReportRepository extends DbRepository
      */
     public $tableHeaders = [
         'id'               => 'Id',
-		'unique_id'        => 'Report ID',
-        'patient_id'       => 'Patient Info',
-        'details'          => 'Details',
-		'total_cost'       => 'Total Cost',
-		'status'           => 'Status',
-        'collected_on'     => 'Collected At',
-        'reported_on'      => 'Completed At',
-		'sent_count'       => 'Message Sent',
+		'unique_id'        => 'Patient Name',
+        'patient_id'       => 'Mobile',
+        'status'           => 'Status',
+        'sent_count'       => 'Message Sent',
         "actions"          => "Actions"
     ];
 
@@ -61,49 +57,25 @@ class EloquentPatientReportRepository extends DbRepository
                     'sortable'      => true
                 ],
 
-        'unique_id' =>   [
-                    'data'          => 'unique_id',
-                    'name'          => 'unique_id',
-                    'searchable'    => true,
-                    'sortable'      => true
-                ],
         'patient_id' =>   [
                     'data'          => 'patient_id',
                     'name'          => 'patient_id',
                     'searchable'    => true,
                     'sortable'      => true
                 ],
-        'sample_collection_detail_id' =>   [
-                    'data'          => 'sample_collection_detail_id',
-                    'name'          => 'sample_collection_detail_id',
+        'unique_id' =>   [
+                    'data'          => 'unique_id',
+                    'name'          => 'unique_id',
                     'searchable'    => true,
                     'sortable'      => true
                 ],
-		'total_cost' =>   [
-                    'data'          => 'total_cost',
-                    'name'          => 'total_cost',
-                    'searchable'    => true,
-                    'sortable'      => true
-                ],
-		'status' =>   [
+        'status' =>   [
                     'data'          => 'status',
                     'name'          => 'status',
                     'searchable'    => true,
                     'sortable'      => true
                 ],
-		'collected_on' =>   [
-                    'data'          => 'collected_on',
-                    'name'          => 'collected_on',
-                    'searchable'    => true,
-                    'sortable'      => true
-                ],
-		'reported_on' =>   [
-                    'data'          => 'reported_on',
-                    'name'          => 'reported_on',
-                    'searchable'    => true,
-                    'sortable'      => true
-                ],
-        'sent_count' =>   [
+		'sent_count' =>   [
                     'data'          => 'sent_count',
                     'name'          => 'sent_count',
                     'searchable'    => true,

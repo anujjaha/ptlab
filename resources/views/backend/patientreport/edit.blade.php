@@ -261,7 +261,7 @@
                 swal.close();
                 if(data.status == true)
                 {
-                    window.location.reload();
+                    window.location.assign("{!!  url('admin/dashboard') !!}");
                     return;
                 }
 

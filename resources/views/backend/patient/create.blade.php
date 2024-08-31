@@ -221,7 +221,7 @@
                     myDropzone.on("queuecomplete", function (file) {
                         swal("Yeah!", "Report uploaded successfully.", "success");
                         $("#dropZoneContainer").hide();
-                        //window.location.reload();
+                        window.location.assign("{!!  url('admin/dashboard') !!}");
                     });
                 }
                 else

@@ -41,8 +41,6 @@ class EloquentPatientRepository extends DbRepository
         'id'              => 'Id',
 		'name'            => 'Name',
 		'mobile'          => 'Mobile',
-		'gender'          => 'Gender',
-		'age'             => 'Age',
 		'address'         => 'Address',
         "actions"         => "Actions"
     ];
@@ -68,24 +66,6 @@ class EloquentPatientRepository extends DbRepository
 		'mobile' =>   [
                     'data'          => 'mobile',
                     'name'          => 'mobile',
-                    'searchable'    => true,
-                    'sortable'      => true
-                ],
-		'gender' =>   [
-                    'data'          => 'gender',
-                    'name'          => 'gender',
-                    'searchable'    => true,
-                    'sortable'      => true
-                ],
-		'age' =>   [
-                    'data'          => 'age',
-                    'name'          => 'age',
-                    'searchable'    => true,
-                    'sortable'      => true
-                ],
-		'address' =>   [
-                    'data'          => 'address',
-                    'name'          => 'address',
                     'searchable'    => true,
                     'sortable'      => true
                 ],

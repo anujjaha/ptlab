@@ -399,21 +399,17 @@ if (!function_exists('getPatientReportStatus')) {
         switch($status)
         {
             case 0:
-                return 'PENDING';
+                return 'Waiting for Approval';
                 break;
 
             case 1:
-                return 'PROCESSING';
+                return 'Approved';
                 break;
 
             case 2:
-                return 'UPLOADED';
+                return 'REJECTED';
                 break;
-
-            case 3:
-                return 'SENT';
-                break;
-
+                
             default:
                 return 'N/A';
                 break;

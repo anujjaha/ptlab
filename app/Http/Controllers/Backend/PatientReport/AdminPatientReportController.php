@@ -152,39 +152,13 @@ class AdminPatientReportController extends Controller
         return Datatables::of($this->repository->getForDataTable())
             ->escapeColumns(['id', 'sort'])
             ->addColumn('patient_id', function ($item) {
-                return '<p>'. $item->patientInfo->name . '</p><p>'. $item->patientInfo->mobile .'</p>';
+                return $item->patientInfo->name;
             })
-            ->addColumn('sample_collection_detail_id', function ($item) {
-                $html = '';
-                if($item->reportDetails)
-                {
-                    foreach($item->reportDetails as $details)
-                    {
-                        $html .= '<p>' . $details->report_type->title . ' ('.$details->total_cost.')</p>';
-                    }
-                }
-                return $html;
+            ->addColumn('unique_id', function ($item) {
+                return $item->patientInfo->mobile;
             })
             ->addColumn('status', function ($item) {
-                return getPatientReportStatus($item->status);
-            })
-            ->addColumn('watsapp_time', function ($item) {
-                if($item->watsapp_time)
-                {
-                    return getReadableDateTime($item->watsapp_time);
-                };
-                return '-';
-            })
-            ->addColumn('collected_on', function ($item) {
-                if($item->sampleCollectionDetail)
-                {
-                    return '<p>'.date('d M Y h:i a', strtotime($item->sampleCollectionDetail->collected_at)) .'</p><p>'. 
-                    $item->sampleCollectionDetail->sampleCollectedBy->name . '</p>';
-                }
-
-                return date('d M Y h:i a', strtotime($item->collected_on));
-            })->addColumn('reported_on', function ($item) {
-               return getReadableDateTime($item->reported_on);
+                return getPatientReportStatus($item->is_sent);
             })
             ->addColumn('actions', function ($item) {
                 return $item->admin_action_buttons;
