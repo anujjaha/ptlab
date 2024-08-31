@@ -376,6 +376,9 @@ class EloquentPatientReportRepository extends DbRepository
             ->update([
                 'attachment'        => $file,
                 'status'            => 2,
+                'is_approved'       => 0,
+                'is_approved_at'    => null,
+                'is_approved_by'    => null,
                 'attachment_time'   => date('Y-m-d H:i:s'),
                 'reported_on'       => date('Y-m-d H:i:s')
             ]);
@@ -388,6 +391,15 @@ class EloquentPatientReportRepository extends DbRepository
                 'status' => 1,
                 'received_on' => date('Y-m-d H:i:s')
             ]);
+    }
+
+    public function rejectReport($reportId = null)
+    {
+        $reportId       = hasher()->decode($reportId);
+        $patientReport  = $this->model->where('id', $reportId)->with(['patientInfo'])->first();
+        $patientReport->is_approved = 2;
+        $patientReport->save();
+        return true;
     }
 
     public function sendWaReport($reportId = null)
@@ -422,9 +434,14 @@ class EloquentPatientReportRepository extends DbRepository
             ]
         );
 
-        $patientReport->watsapp_time = date('Y-m-d h:i:s');
+        $patientReport->watsapp_time = getCurrentIST();
         $patientReport->sent_count = $patientReport->sent_count ? $patientReport->sent_count + 1 : 1;
-        $patientReport->status = 3;
+        $patientReport->status          = 3;
+        $patientReport->is_approved     = 1;
+        $patientReport->is_sent         = 1;
+
+        $patientReport->is_approved_at  = getCurrentIST();
+        $patientReport->is_approved_by  = getUser()->id;
         $patientReport->save();
 
         return true;

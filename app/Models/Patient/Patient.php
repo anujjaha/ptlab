@@ -26,7 +26,7 @@ class Patient extends BaseModel
      *
      */
     protected $fillable = [
-        "id", "account_id", "name", "mobile", "gender", "age", "email", "refer_by", "address", "city", "state", "pin", "notes", "created_at", "updated_at", 
+        "id", "account_id",  "is_wa", "name", "mobile", "gender", "age", "email", "refer_by", "address", "city", "state", "pin", "notes", "created_at", "updated_at", 
     ];
 
     /**

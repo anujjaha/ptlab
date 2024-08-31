@@ -326,11 +326,28 @@ if (!function_exists('getCurrentUtcTime')) {
     }
 }
 
+
+if (!function_exists('getCurrentIST')) {
+
+    function getCurrentIST($format = 'Y-m-d H:i:s')
+    {
+        return date($format);
+    }
+}
+
 if (!function_exists('getUser')) {
 
     function getUser()
     {
         return auth()->user();
+    }
+}
+
+if (!function_exists('canApproveReports')) {
+
+    function canApproveReports()
+    {
+        return auth()->user()->can_approve == 1 ?? false;
     }
 }
 

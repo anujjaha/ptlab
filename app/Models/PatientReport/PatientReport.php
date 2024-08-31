@@ -27,6 +27,7 @@ class PatientReport extends BaseModel
      */
     protected $fillable = [
         "id", "account_id", "patient_id", "sample_collection_detail_id", "total_cost", "status", "is_watsapp", "is_email", "watsapp_time", "email_time", "is_sent", "sent_count", "attachment", "attachment_time", "reference_by", "unique_id", "collected_on", "received_on", "reported_on", "notes", "created_at", "updated_at", 
+        "is_approved", "is_approved_by"
     ];
 
     /**

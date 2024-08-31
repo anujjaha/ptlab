@@ -31,15 +31,6 @@
                 </li>
                 @endif
                 <li class="nav-item">
-                    <a href="{{ route('admin.report_types.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-table"></i>
-                        <p>
-                            Report Types
-                        </p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
                     <a href="{{ route('admin.patient.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-table"></i>
                         <p>
@@ -54,32 +45,7 @@
                             Patient Report
                         </p>
                     </a>
-                </li> 
-                <!-- <li class="nav-item">
-                    <a href="{{ route('admin.patientreportdetails.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-table"></i>
-                        <p>
-                            Patient Report Details
-                        </p>
-                    </a>
-                </li> -->
-               <!--  <li class="nav-item">
-                    <a href="{{ route('admin.watsappmessage.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-table"></i>
-                        <p>
-                            Watsapp Message
-                        </p>
-                    </a>
-                </li> -->
-                <li class="nav-item">
-                    <a href="{{ route('admin.samplecollector.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-table"></i>
-                        <p>
-                            Sample Collector
-                        </p>
-                    </a>
-                </li> 
-                            
+                </li>                            
             </ul>
         </nav>
     </div>

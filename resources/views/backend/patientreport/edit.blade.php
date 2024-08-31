@@ -72,6 +72,14 @@
 
 @section('after-scripts')
 <script>
+    <?php 
+    if(isset($item) && isset($item->is_approved) && $item->is_approved == 1)
+    {
+        //already uploaded
+    }
+    else
+    {
+    ?>
         Dropzone.autoDiscover = false;
         var myDropzone = new Dropzone("#dropzone_field", {
             url: "@php echo route('admin.patientreport.upload', $item->id) @endphp",
@@ -94,11 +102,10 @@
             }
         });
        
-        function uploadReportBtn()
+        function uploadReportBtn(isReupload = 0)
         {
             if(myDropzone.files.length > 0)
             {
-
                 swal({
                     title: "Please Confirm!",
                     text: 'Report can not be deleted once uploaded for the patient.',
@@ -115,12 +122,19 @@
                  {
                     if (isConfirm && isConfirm == true)
                     {
+                        if(isReupload == 1)
+                        {
+                            myDropzone.on('sending', function(file, xhr, formData){
+                                formData.append('reupload', 1);
+                            });
+                        }
+                        
                         myDropzone.processQueue();
 
                         myDropzone.on("queuecomplete", function (file) {
                             swal("Yeah!", "Report uploaded successfully.", "success");
                             $("#dropZoneContainer").hide();
-                            window.location.reload();
+                            //window.location.reload();
                         });
                     }
                     else
@@ -135,7 +149,9 @@
             }
             
         }
-        
+    <?php
+    }
+    ?>
         function sendWaReport(reportId)
         {
             swal({
@@ -194,4 +210,64 @@
 
 
     <input type="hidden" name="isfileUploaded"  id="isfileUploaded"  value="0">
+
+    <script type="text/javascript">
+    function changeReportStatus(isAccepted)
+    {
+        var title = '';
+        if(isAccepted == 1)
+        {
+            title = "Are you sure to Approve Reports ?"
+        }
+        if(isAccepted == 0)
+        {
+            title = "Are you sure to Reject Reports ?"
+        }
+
+        var status = confirm(title);
+
+        if(isAccepted == 1 && status)
+        {
+            approveReport(1);
+        }
+
+        if(isAccepted == 0 && status)
+        {
+            approveReport(0);
+        }
+    }
+
+    function approveReport(isApproved = 0)
+    {
+        jQuery.ajax(
+        {
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            beforeSend: function() 
+            {
+                swal.close();
+                swal('Loading...', '', 'warning');
+            },
+            url : "{{ route('admin.patientreport.sendWaReport') }}",
+            data : {
+                reportId: $("#reportId").val(),
+                isApproved
+            },
+            type : 'POST',
+            dataType : 'json',
+            success : function(data)
+            {
+                swal.close();
+                if(data.status == true)
+                {
+                    window.location.reload();
+                    return;
+                }
+
+                swal('Error!', 'Something went wrong.', 'error');
+            }
+        });
+    }
+</script>
 @endsection

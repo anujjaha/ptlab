@@ -374,8 +374,7 @@ class EloquentWhatsappRepository extends DbRepository
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $resultStr = curl_exec($ch);
             $response =  json_decode($resultStr, true);
-            
-  
+
             return $this->model->create([
                 'account_id'    => $account->id,
                 'to_phone'      => $toMobile,

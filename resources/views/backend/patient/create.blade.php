@@ -148,5 +148,154 @@
     jQuery(document).ready(function() {
         jQuery("#collected_at").datetimepicker()
     })
-</script>
+
+    Dropzone.autoDiscover = false;
+    var myDropzone = new Dropzone("#dropzone_field", {
+        url: "@php echo route('admin.patientreport.upload', 1) @endphp",
+        autoProcessQueue: false,
+        dictDefaultMessage: "Upload your Report PDF file here",
+        paramName: "file", // The name that will be used to transfer the file
+        maxFiles: 1,
+        maxFilesize: 10, // MB
+        addRemoveLinks: true,
+        parallelUploads: 1,
+        uploadMultiple: false,
+        headers: {
+        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+        },
+        success: function (file, response) {
+            if(response.status == true)
+            {
+                $("#uploaded-files").val(response.name);
+            }
+        }
+    });
+
+    myDropzone.on('sending', function(file, xhr, formData){
+        formData.append('name', jQuery("#name").val());
+        formData.append('mobile', jQuery("#mobile").val());
+        formData.append('is_wa', jQuery("#is_wa").val());
+    });
+   
+    function uploadReportBtn()
+    {
+        if(myDropzone.files.length > 0)
+        {
+
+            swal({
+                title: "Please Confirm!",
+                text: 'Report can not be deleted once uploaded for the patient.',
+                type: "warning",
+                html: true,
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes, Lets Upload!',
+                cancelButtonText: "No, cancel it!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+             },
+             function(isConfirm)
+             {
+                if (isConfirm && isConfirm == true)
+                {
+                    if(jQuery("#name").val().length < 1)
+                    {
+                        swal("OH!", "Please add Patient Name.", "error");
+                        return false;
+                    }
+
+                    if(jQuery("#mobile").val().length < 1)
+                    {
+                        swal("OH!", "Please add Mobile Number.", "error");
+                        return false;
+                    }
+
+                    if(jQuery("#is_wa").val() == '')
+                    {
+                        swal("OH!", "Please select WhatsApp.", "error");
+                        return false;
+                    }
+
+                    myDropzone.processQueue();
+
+                    myDropzone.on("queuecomplete", function (file) {
+                        swal("Yeah!", "Report uploaded successfully.", "success");
+                        $("#dropZoneContainer").hide();
+                        //window.location.reload();
+                    });
+                }
+                else
+                {
+                    swal.close();
+                }
+             });
+        }
+        else
+        {
+            swal('Error!', "Please select/uplaod report file", 'error');
+        }
+        
+    }
+    
+    function sendWaReport(reportId)
+    {
+        swal({
+                title: "Send WhatsApp?",
+                text: 'By clicking you are sending reports on patient whatsapp phone number.',
+                type: "warning",
+                html: true,
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes, Send Now.',
+                cancelButtonText: "No, cancel it!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+             },
+            function(isConfirm)
+            {
+                if(isConfirm && isConfirm == true)
+                {
+                    jQuery.ajax(
+                    {
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        beforeSend: function() 
+                        {
+                            swal.close();
+                            swal('Loading...', '', 'warning');
+                        },
+                        url : "{{ route('admin.patientreport.sendWaReport') }}",
+                        data : {
+                            reportId
+                        },
+                        type : 'POST',
+                        dataType : 'json',
+                        success : function(data)
+                        {
+                            swal.close();
+                            if(data.status == true)
+                            {
+                                window.location.reload();
+                                return;
+                            }
+
+                            swal('Error!', 'Something went wrong.', 'error');
+                        }
+                    });
+                }
+                else
+                {
+                    swal.close();
+                }
+            })
+        }
+
+    </script>
+
+
+    <input type="hidden" name="isfileUploaded"  id="isfileUploaded"  value="0">
+
+
 @endsection
+
