@@ -3,6 +3,9 @@
 use App\Models\Employee\Employee;
 use App\Models\Project\Project;
 use App\Models\Account\Account;
+use App\Models\Tag\Tag;
+use App\Models\City\City;
+use App\Models\State\State;
 
 /**
  * Global helpers file with misc functions.
@@ -392,27 +395,48 @@ if (!function_exists('getReadableDateTime')) {
     }
 }
 
-if (!function_exists('getPatientReportStatus')) {
+if (!function_exists('getProfileTagOptions')) {
 
-    function getPatientReportStatus($status)
+    function getProfileTagOptions()
     {
-        switch($status)
+        $tags = Tag::where('status', 1)->get();
+        $output = [];
+        foreach($tags as $tag)
         {
-            case 0:
-                return 'Waiting for Approval';
-                break;
-
-            case 1:
-                return 'Approved';
-                break;
-
-            case 2:
-                return 'REJECTED';
-                break;
-                
-            default:
-                return 'N/A';
-                break;
+            $output[$tag->id] = $tag->title;
         }
+
+        return $output;
+    }
+}
+
+
+if (!function_exists('getCityOptions')) {
+
+    function getCityOptions()
+    {
+        $records = City::all();
+        $output = [];
+        foreach($records as $record)
+        {
+            $output[$record->id] = $record->title;
+        }
+
+        return $output;
+    }
+}
+
+if (!function_exists('getStateOptions')) {
+
+    function getStateOptions()
+    {
+        $records = State::all();
+        $output = [];
+        foreach($records as $record)
+        {
+            $output[$record->id] = $record->title;
+        }
+
+        return $output;
     }
 }

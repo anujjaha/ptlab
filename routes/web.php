@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SamajController;
 use App\Http\Controllers\Auth\LoginController;
 /*
 |--------------------------------------------------------------------------
@@ -23,9 +24,10 @@ $a = \QRCode::url('http://google.com')
                     ->png();
     return response($a)->header('Content-type','image/png');;
 });
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [SamajController::class, 'index'])->name('samaj');
+// Route::get('/', function () {
+//     return view('samaj.index');
+// });
 
 Route::get('/logout', [LoginController::class, 'logout']);
 

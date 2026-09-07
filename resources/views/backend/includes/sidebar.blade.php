@@ -30,22 +30,7 @@
                     </a>
                 </li>
                 @endif
-                <!-- <li class="nav-item">
-                    <a href="{{ route('admin.patient.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-table"></i>
-                        <p>
-                            Patients
-                        </p>
-                    </a>
-                </li>  --> 
-                <li class="nav-item">
-                    <a href="{{ route('admin.patientreport.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-table"></i>
-                        <p>
-                            Patient Report
-                        </p>
-                    </a>
-                </li>                            
+                             
             </ul>
         </nav>
     </div>

@@ -2,7 +2,6 @@
 namespace App\Http\Controllers\Backend\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\PatientReport\PatientReport;
 
 /**
  * Class DashboardController.
@@ -14,8 +13,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $todayReports = PatientReport::whereNull('is_sent')
-        ->with(['patientInfo', 'sampleCollectionDetail', 'sampleCollectionDetail.sampleCollectedBy'])->get();
+        // $todayReports = PatientReport::whereNull('is_sent')
+        // ->with(['patientInfo', 'sampleCollectionDetail', 'sampleCollectionDetail.sampleCollectedBy'])->get();
         
         // $todayPending               = PatientReport::whereNotNull('sample_collection_detail_id')->whereDate('collected_on', date('Y-m-d'))->with(['patientInfo', 'sampleCollectionDetail', 'sampleCollectionDetail.sampleCollectedBy'])
         //     ->whereNull('received_on')
@@ -38,7 +37,7 @@ class DashboardController extends Controller
         //     ->get();
 
         return view('backend.dashboard.index')->with([
-            'todayReports'              => $todayReports,  
+            'todayReports'              => [],  
             // 'todayPending'              => $todayPending, 
             // 'tomorrowPending'           => $tomorrowPending,
             // 'dayAfterTomorrowPending'   => $dayAfterTomorrowPending,
