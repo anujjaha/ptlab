@@ -314,6 +314,11 @@ class EloquentProfileRepository extends DbRepository
         ]);        
     }
 
+    public function attachTags($profile, $input)
+    {
+        return true;
+    }
+
     /**
      * Update Profile
      *
