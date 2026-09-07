@@ -306,10 +306,10 @@ class EloquentProfileRepository extends DbRepository
     {
         return ProfileProfessional::create([
             'profile_id' => $profile->id,
-            'education' => $input['profession_education'],
-            'occupation' => $input['profession_occupation'],
-            'city_id' => $input['city_id'],
-            'state_id' => $input['state_id'],
+            'education' => $input['profession_education'] ?? null,
+            'occupation' => $input['profession_occupation'] ?? null,
+            'city_id' => $input['city_id'] ?? null,
+            'state_id' => $input['state_id'] ?? null,
             'is_current' => 1,
         ]);        
     }
