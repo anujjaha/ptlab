@@ -48,19 +48,19 @@
                     </div>
 
                     <div class="col-md-6">
+                        {{ Form::label('gotra_id', 'Gotra') }}
+                        {{ Form::select('gotra_id', getGotraOptions(), null, ['class'=>'form-control']) }}
+                    </div>
+                    <div class="col-md-6">
                         {{ Form::label('is_paid', 'Paid') }}
                         {{ Form::select('is_paid', [1=>'Yes',0=>'No'], null, ['class'=>'form-control']) }}
                     </div>
-
-
-                    <div class="col-md-12">
-                        {{ Form::label('admin_notes', 'Admin Notes') }}
-                        {{ Form::textarea('admin_notes', null, ['class'=>'form-control','rows'=>2]) }}
-                    </div>
-
                 </div>
             </div>
         </div>
+
+        
+
 
         {{-- ================= CONTACT DETAILS ================= --}}
         <div class="col-md-6">
@@ -173,27 +173,84 @@
                 {{ Form::text('job_title', null, ['class'=>'form-control']) }}
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
                 {{ Form::label('experience', 'Total Experience (Years)') }}
                 {{ Form::number('experience', null, ['class'=>'form-control', 'min'=>0, 'step'=>'0.1']) }}
             </div>
 
             {{-- ===== STATUS FLAGS ===== --}}
-            <div class="col-md-4">
+            <div class="col-md-2">
                 {{ Form::label('is_student', 'Student?') }}
-                {{ Form::select('is_student', [1=>'Yes',0=>'No'], null, ['class'=>'form-control']) }}
+                {{ Form::select('is_student', [0=>'No', 1=>'Yes'], null, ['class'=>'form-control']) }}
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-2">
+                {{ Form::label('is_retired', 'Retired ?') }}
+                {{ Form::select('is_retired', [0=>'No',1=>'Yes'], null, ['class'=>'form-control']) }}
+            </div>
+
+            <div class="col-md-2">
                 {{ Form::label('is_job_seeker', 'Looking for Job?') }}
-                {{ Form::select('is_job_seeker', [1=>'Yes',0=>'No'], null, ['class'=>'form-control']) }}
+                {{ Form::select('is_job_seeker', [0=>'No',1=>'Yes'], null, ['class'=>'form-control']) }}
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-2">
                 {{ Form::label('is_government_job', 'Government Job?') }}
-                {{ Form::select('is_government_job', [1=>'Yes',0=>'No'], null, ['class'=>'form-control']) }}
+                {{ Form::select('is_government_job', [0=>'No',1=>'Yes'], null, ['class'=>'form-control']) }}
             </div>
 
+            <div class="col-md-1">
+                {{ Form::label('is_business', 'Business?') }}
+                {{ Form::select('is_business', [0=>'No',1=>'Yes'], null, ['class'=>'form-control']) }}
+            </div>
+
+            <div class="col-md-3">
+                {{ Form::label('business_title', 'Business Title') }}
+                {{ Form::text('business_title', null, ['class'=>'form-control']) }}
+            </div>
+            <div class="col-md-3">
+                {{ Form::label('business_details', 'Business Details') }}
+                {{ Form::text('business_details', null, ['class'=>'form-control']) }}
+            </div>
+            <div class="col-md-2">
+                {{ Form::label('business_started', 'Business Established') }}
+                {{ Form::text('business_started', null, ['class'=>'form-control']) }}
+            </div>
+            <div class="col-md-3">
+                {{ Form::label('business_website', 'Business Website') }}
+                {{ Form::text('business_website', null, ['class'=>'form-control']) }}
+            </div>
+
+
+        </div>
+        <div class="row">
+
+        <div class="col-md-2">
+            {{ Form::label('member_type', 'Type') }}
+            {{ Form::select('member_type', [
+                1 => 'Head of Family',
+                2 => 'Super Senior',
+                3 => 'Senior Member',
+                4 => 'NRI',
+                5 => 'Youth',
+                6 => 'Child',
+                0 => 'Late',
+            ], null, ['class'=>'form-control']) }}
+        </div>
+        <div class="col-md-2">
+            {{ Form::label('priority', 'Priority') }}
+            {{ Form::select('priority', [
+            0 => 'General',
+            1 => 'Premium',
+            2 => 'Exclusive',
+        ], null, ['class'=>'form-control']) }}
+        </div>
+
+
+        <div class="col">
+                        {{ Form::label('admin_notes', 'Admin Notes') }}
+                        {{ Form::textarea('admin_notes', null, ['class'=>'form-control','rows'=>2]) }}
+                    </div>
 
     </div>
 </div>

@@ -6,6 +6,7 @@ use App\Models\Account\Account;
 use App\Models\Tag\Tag;
 use App\Models\City\City;
 use App\Models\State\State;
+use App\Models\Gotra\Gotra;
 
 /**
  * Global helpers file with misc functions.
@@ -401,6 +402,23 @@ if (!function_exists('getProfileTagOptions')) {
     {
         $tags = Tag::where('status', 1)->get();
         $output = [];
+        foreach($tags as $tag)
+        {
+            $output[$tag->id] = $tag->title;
+        }
+
+        return $output;
+    }
+}
+
+if (!function_exists('getGotraOptions')) {
+
+    function getGotraOptions()
+    {
+        $tags = Gotra::all();
+        $output = [
+            '' => 'Select'
+        ];
         foreach($tags as $tag)
         {
             $output[$tag->id] = $tag->title;

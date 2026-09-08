@@ -15,6 +15,7 @@ use App\Models\City\City;
 use App\Models\ProfileAddress\ProfileAddress;
 use App\Models\ProfessionCategory\ProfessionCategory;
 use App\Models\ProfileProfessional\ProfileProfessional;
+use App\Models\ProfileTag\ProfileTag;
 
 class EloquentProfileRepository extends DbRepository
 {
@@ -306,16 +307,36 @@ class EloquentProfileRepository extends DbRepository
     {
         return ProfileProfessional::create([
             'profile_id' => $profile->id,
-            'education' => $input['profession_education'] ?? null,
-            'occupation' => $input['profession_occupation'] ?? null,
-            'city_id' => $input['city_id'] ?? null,
-            'state_id' => $input['state_id'] ?? null,
+            'education' => $input['education'] ?? null,
+            'occupation' => $input['occupation'] ?? null,
+            'company' => $input['company'] ?? null,
+            'job_title' => $input['job_title'] ?? null,
+            'is_government' => $input['is_government_job'] ?? null,
+            'is_retired' => $input['is_retired'] ?? null,
+            'is_business' => $input['is_business'] ?? null,
+            'business_details' => $input['business_details'] ?? null,
+            'business_title' => $input['business_title'] ?? null,
+            'business_started' => $input['business_started'] ?? null,
+            'business_website' => $input['business_website'] ?? null,
             'is_current' => 1,
         ]);        
     }
 
     public function attachTags($profile, $input)
     {
+        $tagData = [];
+        if(isset($input['tags']) && count($input['tags']))
+        {
+            foreach($input['tags'] as $tag)
+            {
+                $tagData[] = [
+                    'profile_id' => $profile->id,
+                    'tag_id'     => $tag,
+                ];
+            }
+            return ProfileTag::insert($tagData);
+        }
+        
         return true;
     }
 
@@ -483,11 +504,18 @@ class EloquentProfileRepository extends DbRepository
 
     public function homeProfiles()
     {
-        return $this->model->where('is_verify', 1)
+        $profiles =  $this->model->where('is_verify', 1)
             ->orderBy('id')
             ->limit(10)
             ->with(['primaryAddress', 'primaryAddress.city', 'profileTag'])
             ->get();
+        $output = [];
+        foreach($profiles as $profile)
+        {
+            $profile->primary_mobile = substr($profile->primary_mobile, 0, 6). 'XXXX';
+            $output[] = $profile;
+        }
+        return $output;
     }
 
     public function cityWiseCount()

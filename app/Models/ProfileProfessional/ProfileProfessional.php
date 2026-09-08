@@ -27,6 +27,7 @@ class ProfileProfessional extends BaseModel
      */
     protected $fillable = [
         "id", "profile_id", "profession_category_id", "business_id", "education", "company", "occupation", "job_title", "is_government", "is_retired", "is_business", "business_title", "business_details", "is_social", "social_details", "notes", "overall_experience", "is_student", "is_open", "created_at", "updated_at", 
+        "business_started", "business_website"
     ];
 
     /**

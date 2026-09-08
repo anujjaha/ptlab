@@ -69,7 +69,7 @@ class AdminProfileController extends Controller
     public function create(Request $request)
     {
         $profileTags = getProfileTagOptions();
-        
+
         return view($this->repository->setAdmin(true)->getModuleView('createView'))->with([
             'repository' => $this->repository,
             'profileTags' => $profileTags
@@ -96,10 +96,12 @@ class AdminProfileController extends Controller
     public function edit($id, Request $request)
     {
         $item = $this->repository->findOrThrowException($id);
+        $profileTags = getProfileTagOptions();
 
         return view($this->repository->setAdmin(true)->getModuleView('editView'))->with([
             'item'          => $item,
-            'repository'    => $this->repository
+            'repository'    => $this->repository,
+            'profileTags'    => $profileTags
         ]);
     }
 

@@ -809,7 +809,7 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--ink);mi
               <div class="obituary-card">
 
                 <div class="obituary-photo">
-                  <img src="https://via.placeholder.com/150" alt="Late Shri Rajeshbhai">
+                  <img src="https://placehold.co/150" alt="Late Shri Rajeshbhai">
                 </div>
 
                 <div class="obituary-content">
@@ -1017,7 +1017,8 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--ink);mi
 
 <div class="toast" id="toast"></div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
+<script>
 // ── DATA ───────────────────────────────────────────────────────
 const avatarUrls=[
   'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face',
@@ -1416,6 +1417,7 @@ function renderMatrimonial(){
 }
 
 function renderObituary(){
+  return;
   const g=document.getElementById('obituaryGrid');
   const pf=[
     {name:"Aakash Jha",age:28,edu:"M.Tech, IIT Bombay",work:"Software Engineer",city:"Ahmedabad",color:"#0A3A70",initials:"AJ",

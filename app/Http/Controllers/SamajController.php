@@ -28,6 +28,7 @@ class SamajController extends Controller
         $profiles   = $repository->homeProfiles();
         $cityList   = $repository->cityWiseCount();
         $professionList   = $repository->professionWiseCount();
+        // dd($profiles);
 
         return view('samaj.index')->with([
             'cityList' => $cityList,
