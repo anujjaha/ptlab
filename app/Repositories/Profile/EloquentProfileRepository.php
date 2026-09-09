@@ -439,6 +439,7 @@ class EloquentProfileRepository extends DbRepository
             $input = array_merge($input, ['user_id' => access()->user()->id]);
         }
 
+        dd($input);
         return $input;
     }
 

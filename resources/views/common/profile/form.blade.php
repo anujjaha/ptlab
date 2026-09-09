@@ -67,8 +67,9 @@
                         {{ Form::select('gotra_id', getGotraOptions(),  isset($item) && $item ?  $item->gotra_id : null, ['class'=>'form-control']) }}
                     </div>
                     <div class="col-md-6">
-                        {{ Form::label('is_paid', 'Paid') }}
-                        {{ Form::select('is_paid', [1=>'Yes',0=>'No'], null, ['class'=>'form-control']) }}
+                        {{ Form::label('sub_cast_division_id', 'Cast') }}
+                        {{ Form::select('sub_cast_division_id',
+                        getSubCastDivisionOptions(), isset($item) && $item ?  $item->sub_cast_division_id : 1, ['class'=>'form-control']) }}
                     </div>
                 </div>
             </div>
@@ -165,24 +166,17 @@
             </div>
         </div>
 
-        <div class="col-md-12">
-            {{ Form::label('tags', 'Tags') }}
+            <div class="col-md-12">
+                {{ Form::label('tags', 'Tags') }}
 
-            <select name="tags[]" id="tags" class="form-control" multiple>
-                @foreach($profileTags as $tagId => $tagTitle)
-                    <option value="{{ $tagId }}">{{ $tagTitle }}</option>
-                @endforeach
-            </select>
-        </div>
-            {{-- ===== BASIC PROFESSIONAL ===== --}}
-            <div class="col-md-6">
-                {{ Form::label('title', 'Title') }}
-                {{ Form::text('title',  null, ['class'=>'form-control']) }}
+                <select name="tags[]" id="tags" class="form-control" multiple>
+                    @foreach($profileTags as $tagId => $tagTitle)
+                        <option value="{{ $tagId }}">{{ $tagTitle }}</option>
+                    @endforeach
+                </select>
             </div>
-
-            <div class="col-md-6">
-                {{ Form::label('profile_tag_id', 'Profile Tag') }}
-                {{ Form::select('profile_tag_id', $profileTags ?? [], null, ['class'=>'form-control']) }}
+            <div class="col-md-12">
+                <hr />
             </div>
 
             {{-- ===== EDUCATION & JOB ===== --}}

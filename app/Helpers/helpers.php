@@ -7,6 +7,7 @@ use App\Models\Tag\Tag;
 use App\Models\City\City;
 use App\Models\State\State;
 use App\Models\Gotra\Gotra;
+use App\Models\SubCasteDivision\SubCasteDivision;
 
 /**
  * Global helpers file with misc functions.
@@ -422,6 +423,21 @@ if (!function_exists('getGotraOptions')) {
         foreach($tags as $tag)
         {
             $output[$tag->id] = $tag->title;
+        }
+
+        return $output;
+    }
+}
+
+if (!function_exists('getSubCastDivisionOptions')) {
+
+    function getSubCastDivisionOptions()
+    {
+        $tags = SubCasteDivision::where('status', 1)->get();
+        
+        foreach($tags as $tag)
+        {
+            $output[$tag->id] = ucfirst($tag->title);
         }
 
         return $output;
