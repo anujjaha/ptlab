@@ -1176,7 +1176,12 @@ function renderMembers(list){
       </div>`;
     g.appendChild(card);
     const tr=document.createElement('tr');
-    tr.innerHTML=`<td><strong>${m.name}</strong></td><td>${m.title.split(',')[0]}</td><td>${m.city}</td><td>${m.phone}</td><td>${m.gotra}</td>
+    tr.innerHTML=`
+      <td><strong>${m.name ?? ''}</strong></td>
+      <td>${(m.title ?? '').split(',')[0]}</td>
+      <td>${m.city ?? ''}</td>
+      <td>${m.phone ?? ''}</td>
+      <td>${m.gotra ?? ''}</td>
       <td><button onclick="openMember(${m.id})" style="background:var(--sf);color:white;border:none;padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer;font-family:Nunito,sans-serif;font-weight:700">View →</button></td>`;
     lb.appendChild(tr);
   });

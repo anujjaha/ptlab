@@ -417,7 +417,7 @@ class EloquentProfileRepository extends DbRepository
             $file = $input['profile_image'];
             $extension = $file->getClientOriginalExtension();
             $fileName = 'profile_photo_' . uniqid() . '_' . time() . '.' . $extension;
-            $path = public_path('upload/profiles/images');
+            $path = base_path('../public_html/upload/profiles/images');
 
             $file->move($path, $fileName);
             $input['profile_image'] = asset('upload/profiles/images/'.$fileName);
@@ -428,7 +428,7 @@ class EloquentProfileRepository extends DbRepository
             $file = $input['banner_image'];
             $extension = $file->getClientOriginalExtension();
             $fileName = 'banner_photo_' . uniqid() . '_' . time() . '.' . $extension;
-            $path = public_path('upload/profiles/images');
+            $path = base_path('../public_html/upload/profiles/images');
 
             $file->move($path, $fileName);
             $input['banner_image'] = asset('upload/profiles/images/'.$fileName);
