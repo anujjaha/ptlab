@@ -24,7 +24,10 @@ $a = \QRCode::url('http://google.com')
                     ->png();
     return response($a)->header('Content-type','image/png');;
 });
+
 Route::get('/', [SamajController::class, 'index'])->name('samaj');
+
+
 // Route::get('/', function () {
 //     return view('samaj.index');
 // });
