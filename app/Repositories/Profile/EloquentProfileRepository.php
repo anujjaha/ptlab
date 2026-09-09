@@ -485,6 +485,7 @@ class EloquentProfileRepository extends DbRepository
     {
         $profiles =  $this->model->where('is_verify', 1)
             ->orderBy('id')
+            ->inRandomOrder()
             ->limit(10000)
             ->with(['primaryAddress', 'primaryAddress.city', 'profileTag'])
             ->get();
