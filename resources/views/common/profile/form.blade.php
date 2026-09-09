@@ -188,71 +188,71 @@
             {{-- ===== EDUCATION & JOB ===== --}}
             <div class="col-md-6">
                 {{ Form::label('education', 'Education') }}
-                {{ Form::text('education', isset($item) && $item ?  $item->profession->education :  null, ['class'=>'form-control', 'placeholder'=>'e.g. B.Tech, MBA']) }}
+                {{ Form::text('education', isset($item) && $item ?  $item?->profession?->education :  null, ['class'=>'form-control', 'placeholder'=>'e.g. B.Tech, MBA']) }}
             </div>
 
             <div class="col-md-6">
                 {{ Form::label('occupation', 'Occupation') }}
-                {{ Form::text('occupation', isset($item) && $item ?  $item->profession->occupation : null, ['class'=>'form-control', 'placeholder'=>'e.g. Developer, CA']) }}
+                {{ Form::text('occupation', isset($item) && $item ?  $item?->profession?->occupation : null, ['class'=>'form-control', 'placeholder'=>'e.g. Developer, CA']) }}
             </div>
 
             <div class="col-md-6">
                 {{ Form::label('company', 'Company') }}
-                {{ Form::text('company', isset($item) && $item ?  $item->profession->company : null, ['class'=>'form-control']) }}
+                {{ Form::text('company', isset($item) && $item ?  $item?->profession?->company : null, ['class'=>'form-control']) }}
             </div>
 
             <div class="col-md-6">
                 {{ Form::label('job_title', 'Job Title') }}
-                {{ Form::text('job_title', isset($item) && $item ?  $item->profession->job_title : null, ['class'=>'form-control']) }}
+                {{ Form::text('job_title', isset($item) && $item ?  $item?->profession?->job_title : null, ['class'=>'form-control']) }}
             </div>
 
             <div class="col-md-4">
                 {{ Form::label('experience', 'Total Experience (Years)') }}
-                {{ Form::text('experience', isset($item) && $item ?  $item->profession->overall_experience : null, ['class'=>'form-control']) }}
+                {{ Form::text('experience', isset($item) && $item ?  $item?->profession?->overall_experience : null, ['class'=>'form-control']) }}
             </div>
 
             {{-- ===== STATUS FLAGS ===== --}}
             <div class="col-md-2">
                 {{ Form::label('is_student', 'Student?') }}
                 {{ Form::select('is_student', [0=>'No', 1=>'Yes'], 
-                isset($item) && $item ?  $item->profession->is_student :null, ['class'=>'form-control']) }}
+                isset($item) && $item ?  $item?->profession?->is_student :null, ['class'=>'form-control']) }}
             </div>
 
             <div class="col-md-2">
                 {{ Form::label('is_retired', 'Retired ?') }}
-                {{ Form::select('is_retired', [0=>'No',1=>'Yes'], isset($item) && $item ?  $item->profession->is_retired : null, ['class'=>'form-control']) }}
+                {{ Form::select('is_retired', [0=>'No',1=>'Yes'], isset($item) && $item ?  $item?->profession?->is_retired : null, ['class'=>'form-control']) }}
             </div>
 
             <div class="col-md-2">
                 {{ Form::label('is_job_seeker', 'Looking for Job?') }}
-                {{ Form::select('is_job_seeker', [0=>'No',1=>'Yes'], isset($item) && $item ?  $item->profession->is_open : null, ['class'=>'form-control']) }}
+                {{ Form::select('is_job_seeker', [0=>'No',1=>'Yes'], isset($item) && $item ?  $item?->profession?->is_open : null, ['class'=>'form-control']) }}
             </div>
 
             <div class="col-md-2">
                 {{ Form::label('is_government_job', 'Government Job?') }}
-                {{ Form::select('is_government_job', [0=>'No',1=>'Yes'],  isset($item) && $item ?  $item->profession->is_government : null, ['class'=>'form-control']) }}
+                {{ Form::select('is_government_job', [0=>'No',1=>'Yes'],  isset($item) && $item ?  $item?->profession?->is_government : null, ['class'=>'form-control']) }}
             </div>
 
             <div class="col-md-1">
                 {{ Form::label('is_business', 'Business?') }}
-                {{ Form::select('is_business', [0=>'No',1=>'Yes'], isset($item) && $item ?  $item->profession->is_business : null, ['class'=>'form-control']) }}
+                {{ Form::select('is_business', [0=>'No',1=>'Yes'], isset($item) && $item ?  $item?->profession?->is_business : null, ['class'=>'form-control']) }}
             </div>
 
             <div class="col-md-3">
                 {{ Form::label('business_title', 'Business Title') }}
-                {{ Form::text('business_title',  isset($item) && $item ?  $item->profession->business_title : null, ['class'=>'form-control']) }}
+                {{ Form::text('business_title',  isset($item) && $item ?  $item?->profession?->business_title : null, ['class'=>'form-control']) }}
             </div>
             <div class="col-md-3">
                 {{ Form::label('business_details', 'Business Details') }}
-                {{ Form::text('business_details', isset($item) && $item ?  $item->profession->business_details : null, ['class'=>'form-control']) }}
+                {{ Form::text('business_details', isset($item) && $item ?  $item?->profession?->business_details : null, ['class'=>'form-control']) }}
             </div>
             <div class="col-md-2">
                 {{ Form::label('business_started', 'Business Established') }}
-                {{ Form::text('business_started', isset($item) && $item ?  $item->profession->business_started : null, ['class'=>'form-control']) }}
+                {{ Form::text('business_started', isset($item) && $item ?  $item?->profession?->business_started : null, ['class'=>'form-control']) }}
             </div>
             <div class="col-md-3">
                 {{ Form::label('business_website', 'Business Website') }}
-                {{ Form::text('business_website', isset($item) && $item ?  $item->profession->business_website : null, ['class'=>'form-control']) }}
+                {{ Form::text('business_website', isset($item) && $item ?  $item?->profession?->business_website : null, ['class'=>'form-control']) }}
             </div>
 
 
