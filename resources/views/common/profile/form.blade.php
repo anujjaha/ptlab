@@ -1,3 +1,18 @@
+@php
+    //dd($item);
+@endphp
+<style>
+    .profile-table-image {
+    width: 170px;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #e5e7eb;
+    padding: 2px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+</style>
 <div class="container-fluid">
     <div class="row g-4">
 
@@ -49,7 +64,7 @@
 
                     <div class="col-md-6">
                         {{ Form::label('gotra_id', 'Gotra') }}
-                        {{ Form::select('gotra_id', getGotraOptions(), null, ['class'=>'form-control']) }}
+                        {{ Form::select('gotra_id', getGotraOptions(),  $item ? $item->gotra_id : null, ['class'=>'form-control']) }}
                     </div>
                     <div class="col-md-6">
                         {{ Form::label('is_paid', 'Paid') }}
@@ -90,22 +105,22 @@
 
                     <div class="col-md-6">
                         {{ Form::label('address_line1', 'Address Line 1:') }}
-                        {{ Form::text('address_line1', null, ['class'=>'form-control']) }}
+                        {{ Form::text('address_line1', $item ? $item->primaryAddress->address_line1 : null, ['class'=>'form-control']) }}
                     </div>
 
                     <div class="col-md-6">
                         {{ Form::label('address_line2', 'Address Line 2:') }}
-                        {{ Form::text('address_line2', null, ['class'=>'form-control']) }}
+                        {{ Form::text('address_line2', $item ? $item->primaryAddress->address_line2 : null, ['class'=>'form-control']) }}
                     </div>
                 
                     <div class="col-md-6">
                         {{ Form::label('city_id', 'City:') }}
-                        {{ Form::select('city_id', getCityOptions(), null, ['class'=>'form-control']) }}
+                        {{ Form::select('city_id', getCityOptions(), $item ? $item->primaryAddress->city_id : null, ['class'=>'form-control']) }}
                     </div>
 
                     <div class="col-md-6">
                         {{ Form::label('state', 'State:') }}
-                        {{ Form::select('state_id', getStateOptions(), null, ['class'=>'form-control']) }}
+                        {{ Form::select('state_id', getStateOptions(), $item ? $item->primaryAddress->state_id : null, ['class'=>'form-control']) }}
                     </div>
 
                 </div>
@@ -120,11 +135,29 @@
 
                     <div class="col-md-12 text-center">
                         <label class="fw-semibold mb-2">Profile Image</label>
+                        @if($item && $item->profile_image)
+                            <div class="text-center">
+                                <a target="_blank" href="{!! $item->profile_image !!}"><img
+                                    src="{!! $item->profile_image !!}"
+                                    alt="Profile"
+                                    class="profile-table-image"
+                                ></a>
+                            </div>
+                        @endif
                         {{ Form::file('profile_image', ['class'=>'form-control']) }}
                     </div>
 
                     <div class="col-md-12 text-center">
                         <label class="fw-semibold mb-2">Banner Image</label>
+                        @if($item && $item->banner_image)
+                            <div class="text-center">
+                                <a target="_blank" href="{!! $item->banner_image !!}"><img
+                                    src="{!! $item->banner_image !!}"
+                                    alt="Profile"
+                                    class="profile-table-image"
+                                ></a>
+                            </div>
+                        @endif
                         {{ Form::file('banner_image', ['class'=>'form-control']) }}
                     </div>
 
@@ -144,7 +177,7 @@
             {{-- ===== BASIC PROFESSIONAL ===== --}}
             <div class="col-md-6">
                 {{ Form::label('title', 'Title') }}
-                {{ Form::text('title', null, ['class'=>'form-control']) }}
+                {{ Form::text('title',  null, ['class'=>'form-control']) }}
             </div>
 
             <div class="col-md-6">
@@ -155,70 +188,71 @@
             {{-- ===== EDUCATION & JOB ===== --}}
             <div class="col-md-6">
                 {{ Form::label('education', 'Education') }}
-                {{ Form::text('education', null, ['class'=>'form-control', 'placeholder'=>'e.g. B.Tech, MBA']) }}
+                {{ Form::text('education', $item ? $item->profession->education :  null, ['class'=>'form-control', 'placeholder'=>'e.g. B.Tech, MBA']) }}
             </div>
 
             <div class="col-md-6">
                 {{ Form::label('occupation', 'Occupation') }}
-                {{ Form::text('occupation', null, ['class'=>'form-control', 'placeholder'=>'e.g. Developer, CA']) }}
+                {{ Form::text('occupation', $item ? $item->profession->occupation : null, ['class'=>'form-control', 'placeholder'=>'e.g. Developer, CA']) }}
             </div>
 
             <div class="col-md-6">
                 {{ Form::label('company', 'Company') }}
-                {{ Form::text('company', null, ['class'=>'form-control']) }}
+                {{ Form::text('company', $item ? $item->profession->company : null, ['class'=>'form-control']) }}
             </div>
 
             <div class="col-md-6">
                 {{ Form::label('job_title', 'Job Title') }}
-                {{ Form::text('job_title', null, ['class'=>'form-control']) }}
+                {{ Form::text('job_title', $item ? $item->profession->job_title : null, ['class'=>'form-control']) }}
             </div>
 
             <div class="col-md-4">
                 {{ Form::label('experience', 'Total Experience (Years)') }}
-                {{ Form::number('experience', null, ['class'=>'form-control', 'min'=>0, 'step'=>'0.1']) }}
+                {{ Form::text('experience', $item ? $item->profession->overall_experience : null, ['class'=>'form-control']) }}
             </div>
 
             {{-- ===== STATUS FLAGS ===== --}}
             <div class="col-md-2">
                 {{ Form::label('is_student', 'Student?') }}
-                {{ Form::select('is_student', [0=>'No', 1=>'Yes'], null, ['class'=>'form-control']) }}
+                {{ Form::select('is_student', [0=>'No', 1=>'Yes'], 
+                $item ? $item->profession->is_student :null, ['class'=>'form-control']) }}
             </div>
 
             <div class="col-md-2">
                 {{ Form::label('is_retired', 'Retired ?') }}
-                {{ Form::select('is_retired', [0=>'No',1=>'Yes'], null, ['class'=>'form-control']) }}
+                {{ Form::select('is_retired', [0=>'No',1=>'Yes'], $item ? $item->profession->is_retired : null, ['class'=>'form-control']) }}
             </div>
 
             <div class="col-md-2">
                 {{ Form::label('is_job_seeker', 'Looking for Job?') }}
-                {{ Form::select('is_job_seeker', [0=>'No',1=>'Yes'], null, ['class'=>'form-control']) }}
+                {{ Form::select('is_job_seeker', [0=>'No',1=>'Yes'], $item ? $item->profession->is_open : null, ['class'=>'form-control']) }}
             </div>
 
             <div class="col-md-2">
                 {{ Form::label('is_government_job', 'Government Job?') }}
-                {{ Form::select('is_government_job', [0=>'No',1=>'Yes'], null, ['class'=>'form-control']) }}
+                {{ Form::select('is_government_job', [0=>'No',1=>'Yes'],  $item ? $item->profession->is_government : null, ['class'=>'form-control']) }}
             </div>
 
             <div class="col-md-1">
                 {{ Form::label('is_business', 'Business?') }}
-                {{ Form::select('is_business', [0=>'No',1=>'Yes'], null, ['class'=>'form-control']) }}
+                {{ Form::select('is_business', [0=>'No',1=>'Yes'], $item ? $item->profession->is_business : null, ['class'=>'form-control']) }}
             </div>
 
             <div class="col-md-3">
                 {{ Form::label('business_title', 'Business Title') }}
-                {{ Form::text('business_title', null, ['class'=>'form-control']) }}
+                {{ Form::text('business_title',  $item ? $item->profession->business_title : null, ['class'=>'form-control']) }}
             </div>
             <div class="col-md-3">
                 {{ Form::label('business_details', 'Business Details') }}
-                {{ Form::text('business_details', null, ['class'=>'form-control']) }}
+                {{ Form::text('business_details', $item ? $item->profession->business_details : null, ['class'=>'form-control']) }}
             </div>
             <div class="col-md-2">
                 {{ Form::label('business_started', 'Business Established') }}
-                {{ Form::text('business_started', null, ['class'=>'form-control']) }}
+                {{ Form::text('business_started', $item ? $item->profession->business_started : null, ['class'=>'form-control']) }}
             </div>
             <div class="col-md-3">
                 {{ Form::label('business_website', 'Business Website') }}
-                {{ Form::text('business_website', null, ['class'=>'form-control']) }}
+                {{ Form::text('business_website', $item ? $item->profession->business_website : null, ['class'=>'form-control']) }}
             </div>
 
 

@@ -39,26 +39,14 @@ class EloquentProfileRepository extends DbRepository
      * @var array
      */
     public $tableHeaders = [
-        'category_id'        => 'Category_id',
-		'caste_id'        => 'Caste_id',
-		'sub_caste_id'        => 'Sub_caste_id',
-		'sub_cast_division_id'        => 'Sub_cast_division_id',
-		'profile_tag_id'        => 'Profile_tag_id',
-		'gotra_id'        => 'Gotra_id',
-		'surname'        => 'Surname',
-		'firstname'        => 'Firstname',
-		'title'        => 'Title',
+        'id'        => 'Id',
+		'gotra_id'        => 'Gotra',
+		'surname'        => 'Name',
 		'gender'        => 'Gender',
 		'birthdate'        => 'Birthdate',
-		'latedate'        => 'Latedate',
-		'slug'        => 'Slug',
 		'profile_image'        => 'Profile_image',
-		'banner_image'        => 'Banner_image',
 		'primary_mobile'        => 'Primary_mobile',
-		'business_mobile'        => 'Business_mobile',
 		'email'        => 'Email',
-		'status'        => 'Status',
-		'mobile_visibility'        => 'Mobile_visibility',
 		"actions"         => "Actions"
     ];
 
@@ -74,30 +62,6 @@ class EloquentProfileRepository extends DbRepository
                     'searchable'    => true,
                     'sortable'      => true
                 ],
-		'caste_id' =>   [
-                    'data'          => 'caste_id',
-                    'name'          => 'caste_id',
-                    'searchable'    => true,
-                    'sortable'      => true
-                ],
-		'sub_caste_id' =>   [
-                    'data'          => 'sub_caste_id',
-                    'name'          => 'sub_caste_id',
-                    'searchable'    => true,
-                    'sortable'      => true
-                ],
-		'sub_cast_division_id' =>   [
-                    'data'          => 'sub_cast_division_id',
-                    'name'          => 'sub_cast_division_id',
-                    'searchable'    => true,
-                    'sortable'      => true
-                ],
-		'profile_tag_id' =>   [
-                    'data'          => 'profile_tag_id',
-                    'name'          => 'profile_tag_id',
-                    'searchable'    => true,
-                    'sortable'      => true
-                ],
 		'gotra_id' =>   [
                     'data'          => 'gotra_id',
                     'name'          => 'gotra_id',
@@ -107,18 +71,6 @@ class EloquentProfileRepository extends DbRepository
 		'surname' =>   [
                     'data'          => 'surname',
                     'name'          => 'surname',
-                    'searchable'    => true,
-                    'sortable'      => true
-                ],
-		'firstname' =>   [
-                    'data'          => 'firstname',
-                    'name'          => 'firstname',
-                    'searchable'    => true,
-                    'sortable'      => true
-                ],
-		'title' =>   [
-                    'data'          => 'title',
-                    'name'          => 'title',
                     'searchable'    => true,
                     'sortable'      => true
                 ],
@@ -134,27 +86,9 @@ class EloquentProfileRepository extends DbRepository
                     'searchable'    => true,
                     'sortable'      => true
                 ],
-		'latedate' =>   [
-                    'data'          => 'latedate',
-                    'name'          => 'latedate',
-                    'searchable'    => true,
-                    'sortable'      => true
-                ],
-		'slug' =>   [
-                    'data'          => 'slug',
-                    'name'          => 'slug',
-                    'searchable'    => true,
-                    'sortable'      => true
-                ],
-		'profile_image' =>   [
+        'profile_image' =>   [
                     'data'          => 'profile_image',
                     'name'          => 'profile_image',
-                    'searchable'    => true,
-                    'sortable'      => true
-                ],
-		'banner_image' =>   [
-                    'data'          => 'banner_image',
-                    'name'          => 'banner_image',
                     'searchable'    => true,
                     'sortable'      => true
                 ],
@@ -164,31 +98,12 @@ class EloquentProfileRepository extends DbRepository
                     'searchable'    => true,
                     'sortable'      => true
                 ],
-		'business_mobile' =>   [
-                    'data'          => 'business_mobile',
-                    'name'          => 'business_mobile',
-                    'searchable'    => true,
-                    'sortable'      => true
-                ],
 		'email' =>   [
                     'data'          => 'email',
                     'name'          => 'email',
                     'searchable'    => true,
                     'sortable'      => true
                 ],
-		'status' =>   [
-                    'data'          => 'status',
-                    'name'          => 'status',
-                    'searchable'    => true,
-                    'sortable'      => true
-                ],
-		'mobile_visibility' =>   [
-                    'data'          => 'mobile_visibility',
-                    'name'          => 'mobile_visibility',
-                    'searchable'    => true,
-                    'sortable'      => true
-                ],
-		
 		'actions' => [
                 'data'          => 'actions',
                 'name'          => 'actions',
@@ -310,6 +225,7 @@ class EloquentProfileRepository extends DbRepository
             'education' => $input['education'] ?? null,
             'occupation' => $input['occupation'] ?? null,
             'company' => $input['company'] ?? null,
+            'overall_experience' => $input['experience'] ?? null,
             'job_title' => $input['job_title'] ?? null,
             'is_government' => $input['is_government_job'] ?? null,
             'is_retired' => $input['is_retired'] ?? null,
@@ -340,6 +256,41 @@ class EloquentProfileRepository extends DbRepository
         return true;
     }
 
+    public function updateAddress($profile, $input)
+    {
+        return ProfileAddress::where('profile_id', $profile->id)
+        ->update([
+            'address_line1' => $input['address_line1'],
+            'address_line2' => $input['address_line2'],
+            'city_id' => $input['city_id'],
+            'state_id' => $input['state_id'],
+            'is_current' => 1,
+        ]);        
+    }
+
+    public function updateProfession($profile, $input)
+    {
+        return ProfileProfessional::where('profile_id', $profile->id)->update([
+            'education' => $input['education'] ?? null,
+            'occupation' => $input['occupation'] ?? null,
+            'company' => $input['company'] ?? null,
+            'job_title' => $input['job_title'] ?? null,
+            'overall_experience' => $input['experience'] ?? null,
+            'is_government' => $input['is_government_job'] ?? null,
+            'is_retired' => $input['is_retired'] ?? null,
+            'is_business' => $input['is_business'] ?? null,
+            'business_details' => $input['business_details'] ?? null,
+            'business_title' => $input['business_title'] ?? null,
+            'business_started' => $input['business_started'] ?? null,
+            'business_website' => $input['business_website'] ?? null,
+        ]);        
+    }
+
+    public function updateTags($profile, $input)
+    {
+        return $profile->profileTag()->sync($input['tags'] ?? []);
+    }
+
     /**
      * Update Profile
      *
@@ -354,6 +305,12 @@ class EloquentProfileRepository extends DbRepository
         if($model)
         {
             $input = $this->prepareInputData($input);
+
+            $this->updateAddress($model, $input);
+            $this->updateProfession($model, $input);
+            $this->updateTags($model, $input);
+
+           
 
             return $model->update($input);
         }
@@ -455,6 +412,27 @@ class EloquentProfileRepository extends DbRepository
         unset($input['user_id']);
         unset($input['last_active']);
 
+        if (isset($input['profile_image']) && $input['profile_image']->isValid()) 
+        {
+            $file = $input['profile_image'];
+            $extension = $file->getClientOriginalExtension();
+            $fileName = 'profile_photo_' . uniqid() . '_' . time() . '.' . $extension;
+            $path = public_path('upload/profiles/images');
+
+            $file->move($path, $fileName);
+            $input['profile_image'] = asset('upload/profiles/images/'.$fileName);
+        }
+
+        if (isset($input['banner_image']) && $input['banner_image']->isValid()) 
+        {
+            $file = $input['banner_image'];
+            $extension = $file->getClientOriginalExtension();
+            $fileName = 'banner_photo_' . uniqid() . '_' . time() . '.' . $extension;
+            $path = public_path('upload/profiles/images');
+
+            $file->move($path, $fileName);
+            $input['banner_image'] = asset('upload/profiles/images/'.$fileName);
+        }
 
         if($isCreate)
         {

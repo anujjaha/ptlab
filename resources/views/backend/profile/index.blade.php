@@ -5,6 +5,18 @@
 @include('backend.includes.datatable-asset')
 
 @section('content')
+<style>
+    .profile-table-image {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #e5e7eb;
+    padding: 2px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+</style>
 <div class="card">
     <div class="card-header">
         <h3 class="card-title">{{ isset($repository->moduleTitle) ? str_plural($repository->moduleTitle) : '' }} Listing

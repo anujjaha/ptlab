@@ -42,8 +42,8 @@ class Profile extends BaseModel
      */
     protected $guarded = ["id"];
 
-    public function getProfileImageAttribute()
+    public function getProfileImageAttribute($value)
     {
-        return 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face';
+        return $value ?? 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face';
     }
 }

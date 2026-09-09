@@ -154,7 +154,17 @@ class AdminProfileController extends Controller
     {
         return Datatables::of($this->repository->getForDataTable())
             ->escapeColumns(['id', 'sort'])
-            ->addColumn('actions', function ($item) {
+            ->addColumn('profile_image', function ($item) {
+            return '
+                <div class="text-center">
+                    <a target="_blank" href="'.$item->profile_image.'"><img
+                        src="'.$item->profile_image.'"
+                        alt="Profile"
+                        class="profile-table-image"
+                    ></a>
+                </div>
+            ';
+        })->addColumn('actions', function ($item) {
                 return $item->admin_action_buttons;
             })
             ->make(true);

@@ -700,6 +700,7 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--ink);mi
           </div>
         @endforeach
       </div>
+
       <div class="fp">
         <div class="fp-title">Profession</div>
         @foreach($professionList as $profession)
@@ -711,7 +712,8 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--ink);mi
           </div>
         @endforeach
       </div>
-      <div class="fp" style="display: none;">
+
+      <div class="fp">
         <div class="fp-title">Gotra</div>
         <select class="fp-sel" onchange="applyFilter()">
           <option value="">All Gotras</option>
@@ -720,7 +722,7 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--ink);mi
           <option>Sandilya</option><option>Garg</option>
         </select>
       </div>
-      <div class="fp"  style="display: none;">
+      <div class="fp">
         <div class="fp-title">Member Type</div>
         <div class="fp-row"><input type="checkbox" onchange="applyFilter()"><label>Head of Family</label></div>
         <div class="fp-row"><input type="checkbox" onchange="applyFilter()"><label>Youth (18–35)</label></div>
@@ -1131,8 +1133,6 @@ function mkPhoto(m,sz){
 }
 function getFullAddress(add){
   let a = add.primary_address;
-  // console.log('p - add',a.primary_address);
-  console.log('p - add',`${a.address_line1}, ${a.address_line2} ${a?.city?.title}`);
   return `${a.address_line1}, ${a.address_line2} ${a?.city?.title}`;
 }
 function showToast(msg){
@@ -1150,13 +1150,13 @@ function renderMembers(list){
   g.innerHTML='';lb.innerHTML='';
   list.forEach(m=>{
     console.log(m);
-    //style="background:${m.bg}"
+    style="background:${m.bg}"
     const card=document.createElement('div');
     card.className='mem-card';
     card.innerHTML=`
       <div class="mc-banner" >
         <div class="mc-photo-wrap"><div class="mc-photo">${mkPhoto(m,66)}</div></div>
-        <span class="mc-badge bb">${m.profile_tag.title}</span>
+        <span class="mc-badge bb">${m?.profile_tag[0]?.title || '' }</span>
       </div>
       <div class="mc-body">
         <div class="mc-name">${m.firstname} ${m.surname}</div>
@@ -1188,7 +1188,8 @@ function openMember(id){
   console.log(members);
   const m=members.find(x=>x.id==id);
   //style="background:${m.bg}"
-  console.log(m);
+  // console.log(m.banner_image);
+  const bannerImage = m?.banner_image || "{!! asset('img/default-banner.jpeg') !!}";
   const el=document.getElementById('memberModalContent');
         // <button class="dtab" data-p="business">Business</button>
         // <button class="dtab" data-p="family">Family</button>
@@ -1219,7 +1220,13 @@ function openMember(id){
       </div>
       */
   el.innerHTML=`
-    <div class="mdl-ban" >
+    <div class="mdl-ban" style="
+            color: red;
+            background-image: url('${bannerImage}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+         ">
       <div class="mdl-ban-pat"></div>
       <button class="mcl mcl-w" onclick="closeModal('memberModal')">✕</button>
     </div>
