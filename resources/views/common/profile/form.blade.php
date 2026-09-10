@@ -22,24 +22,51 @@
                 <div class="card-header fw-bold">Personal Details</div>
                 <div class="card-body row g-3">
 
-                    <div class="col-md-6">
-                        {{ Form::label('firstname', 'First Name') }}
-                        {{ Form::text('firstname', null, ['class'=>'form-control']) }}
-                    </div>
-
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         {{ Form::label('surname', 'Surname') }}
                         {{ Form::text('surname', null, ['class'=>'form-control']) }}
                     </div>
+                    
+                    <div class="col-md-4">
+                        {{ Form::label('firstname', 'Name') }}
+                        {{ Form::text('firstname', null, ['class'=>'form-control']) }}
+                    </div>
 
-                    <div class="col-md-6">
-                        {{ Form::label('gender', 'Gender') }}
-                        {{ Form::select('gender', ['Male'=>'Male','Female'=>'Female'], null, ['class'=>'form-control']) }}
+                    <div class="col-md-4">
+                        {{ Form::label('fathername', 'Father Name') }}
+                        {{ Form::text('fathername', null, ['class'=>'form-control']) }}
+                    </div>
+
+                    <div class="col-md-4">
+                        {{ Form::label('mothername', 'Mother Name') }}
+                        {{ Form::text('mothername', null, ['class'=>'form-control']) }}
+                    </div>
+
+                    <div class="col-md-4">
+                        {{ Form::label('spousename', 'Spouse Name') }}
+                        {{ Form::text('spousename', null, ['class'=>'form-control']) }}
+                    </div>
+
+                    <div class="col-md-3">
+                        {{ Form::label('birthdate', 'Birthdate') }}
+                        {{ Form::date('birthdate', null, ['class'=>'form-control']) }}
+                    </div>
+                    <div class="col-md-1">
+                        {{ Form::label('is_nri', 'NRI?') }}
+                        <input type="checkbox" name="is_nri" class="form-control" value="1">
                     </div>
 
                     <div class="col-md-6">
-                        {{ Form::label('birthdate', 'Birthdate') }}
-                        {{ Form::date('birthdate', null, ['class'=>'form-control']) }}
+                        {{ Form::label('hobby', 'Hobbies') }}
+                        {{ Form::text('hobby', null, ['class'=>'form-control']) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ Form::label('gender', 'Gender') }}
+                        {{ Form::select('gender', ['Male'=>'Male','Female'=>'Female'], null, ['class'=>'form-control']) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ Form::label('member_type', 'Member Type') }}
+                        {{ Form::select('member_type', getMemberTypeOptions(), null, ['class'=>'form-control']) }}
                     </div>
 
                 </div>
@@ -100,8 +127,8 @@
                     </div>
 
                     <div class="col-md-6">
-                        {{ Form::label('contact_visibility', 'Visibility') }}
-                        {{ Form::select('contact_visibility', [1=>'Public',0=>'Private'], null, ['class'=>'form-control']) }}
+                        {{ Form::label('status', 'Status') }}
+                        {{ Form::select('status', [0=>'Hide',1=>'Active', 2=>'Private'], null, ['class'=>'form-control']) }}
                     </div>
 
                     <div class="col-md-6">
@@ -252,19 +279,6 @@
 
         </div>
         <div class="row">
-
-        <div class="col-md-2">
-            {{ Form::label('member_type', 'Type') }}
-            {{ Form::select('member_type', [
-                1 => 'Head of Family',
-                2 => 'Super Senior',
-                3 => 'Senior Member',
-                4 => 'NRI',
-                5 => 'Youth',
-                6 => 'Child',
-                0 => 'Late',
-            ], null, ['class'=>'form-control']) }}
-        </div>
         <div class="col-md-2">
             {{ Form::label('priority', 'Priority') }}
             {{ Form::select('priority', [
@@ -273,12 +287,39 @@
             2 => 'Exclusive',
         ], null, ['class'=>'form-control']) }}
         </div>
+        <div class="col-md-1">
+            {{ Form::label('visibility', 'Hide Mobile') }}
+            <input
+                    type="checkbox"
+                    name="mobile_visibility"
+                    id="mobile_visibility"
+                    class="form-control"
+                    value="{{ isset($item) && $item->mobile_visibility == 1 ? 1 : 0 }}"
+                    {!! isset($item) && $item->mobile_visibility == 1 ? 'checked' : '' !!}
+                    onchange="this.value = this.checked ? 1 : 0;"
+                >   
+        </div>
+        <div class="col-md-1">
+            {{ Form::label('contact_visibility', 'Hide Address') }}
+            <input
+                type="checkbox"
+                name="contact_visibility"
+                id="contact_visibility"
+                class="form-control"
+                value="{{ isset($item) && $item->contact_visibility == 1 ? 1 : 0 }}"
+                {!! isset($item) && $item->contact_visibility == 1 ? 'checked' : '' !!}
+                onchange="this.value = this.checked ? 1 : 0;"
+            >
+        </div>
 
-
-        <div class="col">
-                        {{ Form::label('admin_notes', 'Admin Notes') }}
-                        {{ Form::textarea('admin_notes', null, ['class'=>'form-control','rows'=>2]) }}
-                    </div>
+        <div class="col-md-4">
+            {{ Form::label('about_me', 'About ME') }}
+            {{ Form::textarea('about_me', null, ['class'=>'form-control','rows'=>2]) }}
+        </div>
+        <div class="col-md-4">
+            {{ Form::label('admin_notes', 'Admin Notes') }}
+            {{ Form::textarea('admin_notes', null, ['class'=>'form-control','rows'=>2]) }}
+        </div>
 
     </div>
 </div>

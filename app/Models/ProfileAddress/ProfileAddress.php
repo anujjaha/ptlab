@@ -40,4 +40,9 @@ class ProfileAddress extends BaseModel
      *
      */
     protected $guarded = ["id"];
+
+    public function getFullAddress()
+    {
+        return $this->address_line1 . ', ' . $this->address_line2 . ' ' . ($this->city->title ?? '') . ' ' . ($this->state->title ?? '' );
+    }
 }

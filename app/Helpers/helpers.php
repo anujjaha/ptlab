@@ -474,3 +474,22 @@ if (!function_exists('getStateOptions')) {
         return $output;
     }
 }
+
+if (!function_exists('getMemberTypeOptions')) {
+
+    function getMemberTypeOptions()
+    {
+        return [
+            '' => "Select",
+            1 => "Late",
+            2 => "Head of the Family",
+            3 => "Super Senior ( 70+ )",
+            4 => "Senior ( 50+ )",
+            5 => "Adult (35-50 )",
+            6 => "Young (20-35)",
+            7 => "Teen (<18)",
+            8 => "Student",
+            9 => "Child (<7)",
+        ];
+    }
+}

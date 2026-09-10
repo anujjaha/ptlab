@@ -21,15 +21,31 @@
                         </p>
                     </a>
                 </li>
+                @endif
                 <li class="nav-item">
-                    <a href="{{ route('admin.account.index') }}" class="nav-link">
+                    <a href="{{ route('admin.profile.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-table"></i>
                         <p>
-                            Accounts
+                            Profiles
                         </p>
                     </a>
                 </li>
-                @endif
+                <li class="nav-item">
+                    <a href="{{ route('admin.gotra.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-table"></i>
+                        <p>
+                            Gotras
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.tag.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-table"></i>
+                        <p>
+                            Tags
+                        </p>
+                    </a>
+                </li>
                              
             </ul>
         </nav>

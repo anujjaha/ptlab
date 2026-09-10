@@ -39,13 +39,12 @@ class EloquentProfileRepository extends DbRepository
      * @var array
      */
     public $tableHeaders = [
-        'id'        => 'Id',
+        'id'                => 'Id',
 		'gotra_id'        => 'Gotra',
-		'surname'        => 'Name',
-		'gender'        => 'Gender',
+		'surname'         => 'Name',
+		'primary_mobile'  => 'Primary_mobile',
 		'birthdate'        => 'Birthdate',
 		'profile_image'        => 'Profile_image',
-		'primary_mobile'        => 'Primary_mobile',
 		'email'        => 'Email',
 		"actions"         => "Actions"
     ];
@@ -74,9 +73,9 @@ class EloquentProfileRepository extends DbRepository
                     'searchable'    => true,
                     'sortable'      => true
                 ],
-		'gender' =>   [
-                    'data'          => 'gender',
-                    'name'          => 'gender',
+        'primary_mobile' =>   [
+                    'data'          => 'primary_mobile',
+                    'name'          => 'primary_mobile',
                     'searchable'    => true,
                     'sortable'      => true
                 ],
@@ -92,12 +91,7 @@ class EloquentProfileRepository extends DbRepository
                     'searchable'    => true,
                     'sortable'      => true
                 ],
-		'primary_mobile' =>   [
-                    'data'          => 'primary_mobile',
-                    'name'          => 'primary_mobile',
-                    'searchable'    => true,
-                    'sortable'      => true
-                ],
+		
 		'email' =>   [
                     'data'          => 'email',
                     'name'          => 'email',
@@ -408,6 +402,11 @@ class EloquentProfileRepository extends DbRepository
     {
         $input['birthdate'] = date('Y-m-d', strtotime($input['birthdate']));
         $input['latedate'] = isset($input['latedate']) ? date('Y-m-d', strtotime($input['latedate'])) : null;
+
+        $input['contact_visibility'] = isset($input['contact_visibility']) ? 1 : 0;
+        $input['mobile_visibility'] = isset($input['mobile_visibility']) ? 1 : 0;
+        $input['is_nri'] = isset($input['is_nri']) ? 1 : 0;
+
         unset($input['verify_at']);
         unset($input['user_id']);
         unset($input['last_active']);

@@ -154,17 +154,30 @@ class AdminProfileController extends Controller
     {
         return Datatables::of($this->repository->getForDataTable())
             ->escapeColumns(['id', 'sort'])
-            ->addColumn('profile_image', function ($item) {
-            return '
-                <div class="text-center">
-                    <a target="_blank" href="'.$item->profile_image.'"><img
-                        src="'.$item->profile_image.'"
-                        alt="Profile"
-                        class="profile-table-image"
-                    ></a>
-                </div>
-            ';
-        })->addColumn('actions', function ($item) {
+                ->addColumn('profile_image', function ($item) {
+                return '
+                    <div class="text-center">
+                        <a target="_blank" href="'.$item->profile_image.'"><img
+                            src="'.$item->profile_image.'"
+                            alt="Profile"
+                            class="profile-table-image"
+                        ></a>
+                    </div>
+                ';
+            })
+            ->addColumn('surname', function ($item) {
+                return ucwords($item->surname . ' ' .$item->firstname . ' '. $item->fathername);
+            })
+            ->addColumn('birthdate', function ($item) {
+                return $item->birthdate ? date('d M Y',strtotime($item->birthdate)) : '-';
+            })
+            ->addColumn('gotra_id', function ($item) {
+                return $item->gotra->title ?? '-';
+            })
+            ->addColumn('email', function ($item) {
+                return $item->primaryAddress->getFullAddress() ?? '';
+            })
+            ->addColumn('actions', function ($item) {
                 return $item->admin_action_buttons;
             })
             ->make(true);

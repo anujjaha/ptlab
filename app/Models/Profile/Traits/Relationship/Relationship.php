@@ -5,6 +5,7 @@ namespace App\Models\Profile\Traits\Relationship;
 use App\Models\ProfileAddress\ProfileAddress;
 use App\Models\User\User;
 use App\Models\Tag\Tag;
+use App\Models\Gotra\Gotra;
 use App\Models\ProfileProfessional\ProfileProfessional;
 
 trait Relationship
@@ -12,6 +13,11 @@ trait Relationship
 	public function primaryAddress()
 	{
 		return $this->hasOne(ProfileAddress::class, 'profile_id');
+	}
+
+	public function gotra()
+	{
+		return $this->belongsTo(Gotra::class);
 	}
 
 	public function profession()

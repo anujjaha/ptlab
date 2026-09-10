@@ -27,7 +27,7 @@ class Profile extends BaseModel
      */
     protected $fillable = [
         "admin_notes", "banner_image", "birthdate", "business_mobile", "caste_id", "category_id", "contact_visibility", "created_at", "email", "firstname", "flag_info", "gender", "gotra_id", "id", "is_original", "is_paid", "is_verify", "last_active", "latedate", "mobile_visibility", "personal_notes", "primary_mobile", "profile_image", "profile_tag_id", "refer_by", "refer_link", "remarks", "slug", "status", "sub_cast_division_id", "sub_caste_id", "surname", "title", "updated_at", "user_id", "verify_at", "visit_count", 
-        "hobby", "priority", "member_type"
+        "hobby", "priority", "member_type", "fathername","mothername","spousename", "about_me", "is_nri"
     ];
 
     /**
