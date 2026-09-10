@@ -609,7 +609,7 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--ink);mi
     </div>
     <div class="nav-acts">
       <button class="btn-ghost" onclick="openAddProfile()">+ Add Profile</button>
-      <button class="btn-cta" onclick="showToast('WhatsApp link copied!')">Join Community</button>
+      <a href="https://wa.me/918000060541?text=connet-me" class="btn-cta" >Join Community</a>
     </div>
     <button class="mob-menu-btn" id="mobMenuBtn" onclick="toggleMobDrawer()" aria-label="Menu">
       <span></span><span></span><span></span>

@@ -26,6 +26,7 @@ $a = \QRCode::url('http://google.com')
 });
 
 Route::get('/', [SamajController::class, 'index'])->name('samaj');
+Route::get('/feature', [SamajController::class, 'feature'])->name('feature');
 
 
 // Route::get('/', function () {

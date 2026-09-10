@@ -36,4 +36,9 @@ class SamajController extends Controller
             'profiles' => $profiles
         ]);
     }
+
+    public function feature(Request $request)
+    {
+        return view('samaj.feature');   
+    }
 }
